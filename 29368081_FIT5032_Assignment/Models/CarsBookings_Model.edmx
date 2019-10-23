@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CarsBookings_Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="CarsBookings_ModelStoreContainer">
+    <EntitySet Name="Cars" EntityType="CarsBookings_Model.Store.Cars" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Bookings" EntityType="CarsBookings_Model.Store.Bookings" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="CarBooking" Association="CarsBookings_Model.Store.CarBooking">
+      <End Role="Car" EntitySet="Cars" />
+      <End Role="Booking" EntitySet="Bookings" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Cars">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="car_make" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="car_model" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="car_modelYear" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Bookings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="booking_name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="datetime" Type="datetime" Nullable="false" />
+    <Property Name="booking_periodLength" Type="int" Nullable="false" />
+    <Property Name="CarId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="CarBooking">
+    <End Role="Car" Type="CarsBookings_Model.Store.Cars" Multiplicity="1" />
+    <End Role="Booking" Type="CarsBookings_Model.Store.Bookings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Car">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="CarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="CarsBookings_Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="CarsBookings_ModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cars" EntityType="CarsBookings_Model.Car" />
+          <EntitySet Name="Bookings" EntityType="CarsBookings_Model.Booking" />
+          <AssociationSet Name="CarBooking" Association="CarsBookings_Model.CarBooking">
+            <End Role="Car" EntitySet="Cars" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="car_make" Type="String" Nullable="false" />
+          <Property Name="car_model" Type="String" Nullable="false" />
+          <Property Name="car_modelYear" Type="String" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="CarsBookings_Model.CarBooking" FromRole="Car" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="booking_name" Type="String" Nullable="false" />
+          <Property Name="datetime" Type="DateTime" Nullable="false" />
+          <Property Name="booking_periodLength" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="CarsBookings_Model.CarBooking" FromRole="Booking" ToRole="Car" />
+          <Property Name="CarId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="CarBooking">
+          <End Type="CarsBookings_Model.Car" Role="Car" Multiplicity="1" />
+          <End Type="CarsBookings_Model.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="CarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CarsBookings_ModelStoreContainer" CdmEntityContainer="CarsBookings_ModelContainer">
+    <EntitySetMapping Name="Cars">
+      <EntityTypeMapping TypeName="IsTypeOf(CarsBookings_Model.Car)">
+        <MappingFragment StoreEntitySet="Cars">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="car_make" ColumnName="car_make" />
+          <ScalarProperty Name="car_model" ColumnName="car_model" />
+          <ScalarProperty Name="car_modelYear" ColumnName="car_modelYear" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Bookings">
+      <EntityTypeMapping TypeName="IsTypeOf(CarsBookings_Model.Booking)">
+        <MappingFragment StoreEntitySet="Bookings">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="booking_name" ColumnName="booking_name" />
+          <ScalarProperty Name="datetime" ColumnName="datetime" />
+          <ScalarProperty Name="booking_periodLength" ColumnName="booking_periodLength" />
+          <ScalarProperty Name="CarId" ColumnName="CarId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
